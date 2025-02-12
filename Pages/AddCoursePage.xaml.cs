@@ -18,7 +18,7 @@ namespace MuzicaScoala
                 _course = course;
                 CourseNameEntry.Text = course.Name;
                 CourseDescriptionEditor.Text = course.Description;
-                InstructorEntry.Text = course.Instructor;
+               // InstructorEntry.Text = course.Instructor;
                 SaveButton.Text = "Update Course"; // Schimbă textul butonului în "Update"
             }
             else
@@ -43,7 +43,7 @@ namespace MuzicaScoala
             // Actualizăm obiectul Course cu datele din formular
             _course.Name = CourseNameEntry.Text;
             _course.Description = CourseDescriptionEditor.Text;
-            _course.Instructor = InstructorEntry.Text;
+           // _course.Instructor = InstructorEntry.Text;
 
             // Adăugăm sau actualizăm cursul în baza de date
             int result = await App.Database.AddCourseAsync(_course);

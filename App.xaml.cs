@@ -1,5 +1,4 @@
-﻿using MuzicaScoala.Data; // Am schimbat namespace-ul
-using System;
+﻿using MuzicaScoala.Data;
 using System.IO;
 
 namespace MuzicaScoala
@@ -14,8 +13,9 @@ namespace MuzicaScoala
             {
                 if (_database == null)
                 {
+                    // Setăm calea pentru fișierul de baze de date SQLite
                     string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "musicschooldatabase.db");
-                    _database = new MusicSchoolDatabase(dbPath);
+                    _database = new MusicSchoolDatabase(dbPath); // Creăm o instanță a bazei de date
                 }
                 return _database;
             }
@@ -24,11 +24,7 @@ namespace MuzicaScoala
         public App()
         {
             InitializeComponent();
-
-            // Wrap the MainPage with a NavigationPage to enable navigation.
             MainPage = new NavigationPage(new MainPage());
-          //  MainPage = new NavigationPage(new CoursesPage());
-
         }
     }
 }

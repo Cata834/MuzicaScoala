@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.AddInstructorPage"
+             Title="Add Instructor">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="15">
+
+            <Label Text="Add a New Instructor" 
+                   FontSize="24"
+                   HorizontalOptions="Center" />
+
+            <Entry x:Name="NameEntry" 
+                   Placeholder="Instructor Name"
+                   SemanticProperties.Hint="Enter the name of the instructor" />
+
+            <Entry x:Name="EmailEntry" 
+                   Placeholder="Instructor Email"
+                   Keyboard="Email" 
+                   SemanticProperties.Hint="Enter the email of the instructor" />
+
+            <Entry x:Name="PhoneEntry" 
+                   Placeholder="Instructor Phone"
+                   Keyboard="Telephone" 
+                   SemanticProperties.Hint="Enter the phone number of the instructor" />
+
+            <Button Text="Save Instructor"
+                    Clicked="OnSaveInstructorClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

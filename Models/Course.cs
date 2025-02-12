@@ -12,23 +12,11 @@ namespace MuzicaScoala.Models
     public class Course
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Instructor { get; set; }
-
-        // Constructor cu parametri
-        public Course(string name, string description, string instructor)
-        {
-            Name = name;
-            Description = description;
-            Instructor = instructor;
-        }
-
-        // Constructor implicit
-        public Course() { }
+        public int Id { get; set; } // ID-ul cursului
+        public string Name { get; set; } // Numele cursului
+        public string Description { get; set; } // Descrierea cursului
+        public int InstructorId { get; set; } // ID-ul instructorului care predă cursul (relatie cu Instructor)
     }
-
 }
 
 

@@ -58,6 +58,15 @@
                 SemanticProperties.Hint="Adaugă un curs nou"
                 Clicked="OnAddCourseClicked"
                 HorizontalOptions="Fill" />
+            <Button
+    x:Name="AddInstructorBtn"
+    Text="Add New Instructor"
+    SemanticProperties.Hint="Adaugă un instructor nou"
+    Clicked="OnAddInstructorClicked"
+    HorizontalOptions="Fill" />
+
+
+
         </VerticalStackLayout>
     </ScrollView>
 

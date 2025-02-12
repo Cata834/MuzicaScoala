@@ -14,7 +14,7 @@ namespace MuzicaScoala
             // Afișăm detaliile cursului pe pagină
             CourseNameLabel.Text = _course.Name;
             CourseDescriptionLabel.Text = _course.Description;
-            InstructorLabel.Text = _course.Instructor;
+          //  InstructorLabel.Text = _course.Instructor;
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.InstructorPage">
+
+    <VerticalStackLayout Padding="10">
+
+        <!-- Numele instructorului -->
+        <Entry x:Name="InstructorNameEntry" Placeholder="Enter Name" />
+
+        <!-- Email-ul instructorului -->
+        <Entry x:Name="InstructorEmailEntry" Placeholder="Enter Email" Keyboard="Email" />
+
+        <!-- Telefonul instructorului -->
+        <Entry x:Name="InstructorPhoneEntry" Placeholder="Enter Phone" Keyboard="Telephone" />
+
+        <!-- Alte componente ale paginii -->
+        <Button Text="Save" Clicked="OnSaveClicked" />
+
+    </VerticalStackLayout>
+</ContentPage>

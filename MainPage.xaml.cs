@@ -1,5 +1,5 @@
-﻿using MuzicaScoala.Data;
-using MuzicaScoala.Models;
+﻿using MuzicaScoala.Models; // Asigură-te că ai referință la modelele tale
+using MuzicaScoala.Data;
 
 namespace MuzicaScoala
 {
@@ -13,7 +13,6 @@ namespace MuzicaScoala
         // Navigăm către pagina cu lista de cursuri
         private async void OnCoursesClicked(object sender, EventArgs e)
         {
-            // Poți naviga către o pagină care afișează cursurile, de exemplu CoursesPage.xaml
             await Navigation.PushAsync(new CoursesPage());
         }
 
@@ -32,8 +31,14 @@ namespace MuzicaScoala
         // Navigăm către pagina AddCoursePage pentru a adăuga un curs nou
         private async void OnAddCourseClicked(object sender, EventArgs e)
         {
-            // Navigăm către pagina AddCoursePage pentru a adăuga un curs nou
             await Navigation.PushAsync(new AddCoursePage());
         }
+        private async void OnAddInstructorClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AddInstructorPage());
+        }
+
+
+
     }
 }

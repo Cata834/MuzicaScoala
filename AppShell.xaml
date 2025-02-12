@@ -21,6 +21,5 @@
             ContentTemplate="{DataTemplate local:AboutPage}" />
     </TabBar>
 
-    <!-- Adăugăm o pagină separată pentru a adăuga un curs -->
     <ShellContent Title="Add Course" ContentTemplate="{DataTemplate local:AddCoursePage}" />
 </Shell>
