@@ -1,0 +1,19 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.AddCoursePage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="20">
+            <Label Text="Course Name" />
+            <Entry x:Name="CourseNameEntry" Placeholder="Enter course name" />
+
+            <Label Text="Course Description" />
+            <Entry x:Name="CourseDescriptionEditor" Placeholder="Enter course description" />
+
+            <Label Text="Instructor" />
+            <Entry x:Name="InstructorEntry" Placeholder="Enter instructor name" />
+
+            <Button x:Name="SaveButton" Text="Save Course" Clicked="OnSaveCourseClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

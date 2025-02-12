@@ -9,9 +9,6 @@
 
     <TabBar>
         <ShellContent
-            Title="Shopping Lists"
-            ContentTemplate="{DataTemplate local:MainPage}" />
-        <ShellContent
             Title="Courses"
             ContentTemplate="{DataTemplate local:CoursesPage}" />
 
@@ -24,4 +21,6 @@
             ContentTemplate="{DataTemplate local:AboutPage}" />
     </TabBar>
 
+    <!-- Adăugăm o pagină separată pentru a adăuga un curs -->
+    <ShellContent Title="Add Course" ContentTemplate="{DataTemplate local:AddCoursePage}" />
 </Shell>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MuzicaScoala.CoursesPage"
-             Title="Courses">
-    <VerticalStackLayout Padding="20">
-        <Label 
-            Text="List of music courses"
-            FontSize="24"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="MuzicaScoala.CoursesPage">
+
+    <StackLayout Padding="20">
+        <Label Text="Courses" FontSize="24" HorizontalOptions="CenterAndExpand" />
+        <ListView x:Name="CoursesListView" ItemTapped="OnCourseTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Instructor}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Add New Course" Clicked="OnAddCourseClicked" />
+    </StackLayout>
 </ContentPage>

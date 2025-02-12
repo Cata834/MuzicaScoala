@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.CourseDetailPage">
+
+    <StackLayout Padding="20">
+        <Label Text="Course Details" FontSize="24" HorizontalOptions="CenterAndExpand" />
+        <Label Text="Name:" FontSize="18" />
+        <Label x:Name="CourseNameLabel" FontSize="18" />
+        <Label Text="Description:" FontSize="18" />
+        <Label x:Name="CourseDescriptionLabel" FontSize="18" />
+        <Label Text="Instructor:" FontSize="18" />
+        <Label x:Name="InstructorLabel" FontSize="18" />
+    </StackLayout>
+</ContentPage>
