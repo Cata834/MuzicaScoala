@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.AboutPage"
+             Title="About Our Music School">
+    <VerticalStackLayout Spacing="10" Margin="10" HorizontalOptions="Center" VerticalOptions="Center">
+
+        <HorizontalStackLayout Spacing="10" >
+            <Image Source="music_logo.png"
+                   SemanticProperties.Description="Music School Logo"
+                   HeightRequest="150"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+
+            
+
+           
+        </HorizontalStackLayout>
+
+        <Label FontSize="22" FontAttributes="Bold" Text="Harmony Music School"
+       VerticalOptions="End" />
+
+        <Label Text="Welcome to Harmony Music School! We offer professional music courses for all ages."
+               FontSize="16" />
+
+        <Label Text="Learn piano, guitar, violin, and more from experienced instructors."
+               FontSize="14" />
+
+    </VerticalStackLayout>
+</ContentPage>

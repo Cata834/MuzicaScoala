@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MuzicaScoala.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+           
+            <Image
+                Source="school_logo.jpeg"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Logo-ul școlii de muzică" />
+
+            
+            <Label
+                Text="Welcome to the Music School!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            
+            <Label
+                Text="Learn to sing with the best instructors and explore various music courses."
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Descriere despre școala de muzică" />
+
+            
+            <Button
+                x:Name="CoursesBtn"
+                Text="See Courses"
+                SemanticProperties.Hint="Accesează lista de cursuri oferite"
+                Clicked="OnCoursesClicked"
+                HorizontalOptions="Fill" />
+
+            
+            <Button
+                x:Name="InstructorsBtn"
+                Text="Meet the Instructors"
+                SemanticProperties.Hint="Vezi instructorii noștri și specialitățile lor"
+                Clicked="OnInstructorsClicked"
+                HorizontalOptions="Fill" />
+
+            
+            <Button
+                x:Name="AboutBtn"
+                Text="About our music school"
+                SemanticProperties.Hint="Află mai multe despre istoria și misiunea școlii"
+                Clicked="OnAboutClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
