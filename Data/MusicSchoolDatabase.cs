@@ -18,14 +18,11 @@ namespace MuzicaScoala.Data
             _database.CreateTableAsync<Instructor>().Wait();
         }
 
-
-
         // Adaugă un curs nou sau actualizează unul existent
         public async Task<int> AddCourseAsync(Course course)
         {
             try
             {
-                // Verificăm dacă cursul există deja în baza de date (pe baza unui ID sau nume)
                 if (course.Id != 0)
                 {
                     // Cursul există deja și va fi actualizat
@@ -33,24 +30,21 @@ namespace MuzicaScoala.Data
                 }
                 else
                 {
-                    // Verifică dacă există deja un curs cu același nume
                     var existingCourse = await _database.Table<Course>()
                                                          .Where(c => c.Name == course.Name)
                                                          .FirstOrDefaultAsync();
                     if (existingCourse != null)
                     {
-                        // Dacă există un curs cu același nume, returnează un cod de eroare
                         return -1; // Returnează un cod de eroare pentru duplicat
                     }
 
-                    // Cursul nu există și va fi inserat
                     return await _database.InsertAsync(course);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Eroare la adăugarea/actualizarea cursului: {ex.Message}");
-                return 0; // Returnează 0 pentru semnalizarea unei erori
+                return 0;
             }
         }
 
@@ -59,12 +53,12 @@ namespace MuzicaScoala.Data
         {
             try
             {
-                return await _database.Table<Course>().ToListAsync(); // Obține lista tuturor cursurilor
+                return await _database.Table<Course>().ToListAsync();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Eroare la obținerea cursurilor: {ex.Message}");
-                return new List<Course>(); // Returnează o listă goală în caz de eroare
+                return new List<Course>();
             }
         }
 
@@ -73,12 +67,12 @@ namespace MuzicaScoala.Data
         {
             try
             {
-                return await _database.DeleteAsync(course); // Șterge cursul din baza de date
+                return await _database.DeleteAsync(course);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Eroare la ștergerea cursului: {ex.Message}");
-                return 0; // Returnează 0 pentru semnalizarea unei erori
+                return 0;
             }
         }
 
@@ -89,12 +83,10 @@ namespace MuzicaScoala.Data
             {
                 if (instructor.Id != 0)
                 {
-                    // Instructorul există deja și va fi actualizat
                     return await _database.UpdateAsync(instructor);
                 }
                 else
                 {
-                    // Verifică dacă există deja un instructor cu același Email
                     var existingInstructor = await _database.Table<Instructor>()
                                                             .Where(i => i.Email == instructor.Email)
                                                             .FirstOrDefaultAsync();
@@ -103,29 +95,27 @@ namespace MuzicaScoala.Data
                         return -1; // Instructorul există deja
                     }
 
-                    // Instructorul nu există și va fi inserat
                     return await _database.InsertAsync(instructor);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Eroare la adăugarea/actualizarea instructorului: {ex.Message}");
-                return 0; // Returnează 0 pentru semnalizarea unei erori
+                return 0;
             }
         }
-
 
         // Obține toți instructorii din baza de date
         public async Task<List<Instructor>> GetInstructorsAsync()
         {
             try
             {
-                return await _database.Table<Instructor>().ToListAsync(); // Obține lista tuturor instructorilor
+                return await _database.Table<Instructor>().ToListAsync();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Eroare la obținerea instructorilor: {ex.Message}");
-                return new List<Instructor>(); // Returnează o listă goală în caz de eroare
+                return new List<Instructor>();
             }
         }
 
@@ -134,6 +124,8 @@ namespace MuzicaScoala.Data
         {
             try
             {
+                // Log pentru debugging
+                Console.WriteLine($"Ștergem instructorul: {instructor.Name}");
                 return await _database.DeleteAsync(instructor); // Șterge instructorul din baza de date
             }
             catch (Exception ex)
@@ -142,7 +134,26 @@ namespace MuzicaScoala.Data
                 return 0; // Returnează 0 pentru semnalizarea unei erori
             }
         }
-        
+
+
+
+        // Șterge instructorii care nu au cursuri asignate
+        public async Task DeleteInstructorsWithoutCoursesAsync()
+        {
+            try
+            {
+                // Execută o interogare SQL pentru a șterge toți instructorii care nu au cursuri asignate
+                var result = await _database.ExecuteAsync("DELETE FROM Instructor WHERE Courses IS NULL OR TRIM(Courses) = ''");
+
+                Console.WriteLine($"Ștergere completă. {result} instructori au fost șterși.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Eroare la ștergerea instructorilor fără cursuri: {ex.Message}");
+            }
         }
+
+
     }
+}
 

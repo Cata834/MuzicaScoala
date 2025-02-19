@@ -1,5 +1,6 @@
 ﻿using MuzicaScoala.Data;
 using MuzicaScoala.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,38 +9,38 @@ namespace MuzicaScoala
     public partial class AddCoursePage : ContentPage
     {
         private Course _course;
+        private List<Instructor> _instructors;  // Stocăm instructorii pentru Picker
 
         public AddCoursePage(Course course = null)
         {
             InitializeComponent();
-            LoadInstructorsAsync(course);  // Încărcăm instructorii asincron
+            LoadInstructorsAsync(course);
+
+            _course = course ?? new Course();
 
             if (course != null)
             {
-                _course = course;
                 CourseNameEntry.Text = course.Name;
                 CourseDescriptionEditor.Text = course.Description;
-
-                SaveButton.Text = "Update Course";  // Schimbă textul butonului în "Update"
+                SaveButton.Text = "Update Course";
             }
             else
             {
-                _course = new Course();  // Cursul este gol pentru adăugare
-                SaveButton.Text = "Add Course";  // Butonul va spune "Add Course"
+                SaveButton.Text = "Add Course";
             }
         }
 
-        // Metodă asincronă pentru a încărca instructorii
+        // Încărcăm instructorii și îi setăm în Picker
         private async void LoadInstructorsAsync(Course course)
         {
-            var instructors = await App.Database.GetInstructorsAsync();  // Obținem lista de instructori din DB
-            InstructorPicker.ItemsSource = instructors;  // Setăm lista de instructori în Picker
+            _instructors = await App.Database.GetInstructorsAsync();
+
+            InstructorPicker.ItemsSource = _instructors;  // Setăm direct lista de instructori
+            InstructorPicker.ItemDisplayBinding = new Binding("Name");  // Afișăm doar numele
 
             if (course != null)
             {
-                // Selectează instructorul existent dacă este deja salvat
-                var selectedInstructor = instructors.FirstOrDefault(i => i.Id == course.InstructorId);
-
+                var selectedInstructor = _instructors.FirstOrDefault(i => i.Id == course.InstructorId);
                 if (selectedInstructor != null)
                 {
                     InstructorPicker.SelectedItem = selectedInstructor;
@@ -47,10 +48,8 @@ namespace MuzicaScoala
             }
         }
 
-        // Salvarea cursului
         private async void OnSaveCourseClicked(object sender, EventArgs e)
         {
-            // Verificăm dacă toate câmpurile sunt completate
             if (string.IsNullOrWhiteSpace(CourseNameEntry.Text) ||
                 string.IsNullOrWhiteSpace(CourseDescriptionEditor.Text) ||
                 InstructorPicker.SelectedItem == null)
@@ -59,6 +58,7 @@ namespace MuzicaScoala
                 return;
             }
 
+            // Selectăm instructorul real
             var selectedInstructor = (Instructor)InstructorPicker.SelectedItem;
 
             _course.Name = CourseNameEntry.Text;
@@ -66,13 +66,12 @@ namespace MuzicaScoala
             _course.InstructorId = selectedInstructor.Id;
             _course.InstructorName = selectedInstructor.Name;
 
-            // Adăugăm cursul în baza de date
             int result = await App.Database.AddCourseAsync(_course);
 
             if (result > 0)
             {
                 await DisplayAlert("Success", "Course saved successfully!", "OK");
-                await Navigation.PopAsync();  // Navigăm înapoi la pagina principală
+                await Navigation.PopAsync();
             }
             else
             {

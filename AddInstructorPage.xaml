@@ -25,6 +25,14 @@
                    Keyboard="Telephone" 
                    SemanticProperties.Hint="Enter the phone number of the instructor" />
 
+            
+
+            <Picker x:Name="CoursesPicker"
+        Title="Select a course"
+        ItemsSource="{Binding AvailableCourses}"
+        SelectedItem="{Binding SelectedCourse}" />
+
+
             <Button Text="Save Instructor"
                     Clicked="OnSaveInstructorClicked" />
 

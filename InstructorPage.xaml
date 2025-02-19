@@ -9,13 +9,21 @@
         <Label Text="List of Instructors" FontSize="24" HorizontalOptions="Center" />
 
         <!-- ListView pentru afișarea instructorilor -->
-        <ListView x:Name="InstructorListView">
+        <ListView x:Name="InstructorListView"
+                  ItemTapped="OnInstructorTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding Email}" />
+                    <TextCell Text="{Binding Name}"
+                              Detail="{Binding CoursesDisplay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <!-- Buton pentru a șterge instructorii fără cursuri -->
+        <Button Text="Șterge Instructori Fără Cursuri"
+                Clicked="OnDeleteInstructorsWithoutCoursesClicked"
+                HorizontalOptions="Center" 
+                VerticalOptions="CenterAndExpand" />
 
         <!-- Buton pentru a naviga la AddInstructorPage -->
         <Button Text="Add New Instructor" Clicked="OnAddInstructorClicked" />

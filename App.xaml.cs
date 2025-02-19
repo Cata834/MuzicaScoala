@@ -1,4 +1,5 @@
 ﻿using MuzicaScoala.Data;
+using Syncfusion.Licensing;
 using System.IO;
 
 namespace MuzicaScoala
@@ -24,6 +25,7 @@ namespace MuzicaScoala
         public App()
         {
             InitializeComponent();
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF1cXmhKYVF3WmFZfVtgcF9EaVZVQWY/P1ZhSXxWdkdiUH5Ycn1RQWBaUUU=");
             MainPage = new NavigationPage(new MainPage());
         }
     }
