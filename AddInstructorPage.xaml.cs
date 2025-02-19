@@ -35,7 +35,8 @@ namespace MuzicaScoala
             };
 
             // Adaugă instructorul în baza de date
-            await App.Database.SaveInstructorAsync(newInstructor);
+            await App.Database.AddInstructorAsync(newInstructor);
+
 
             // Navighează înapoi la pagina principală (sau o altă pagină dorită)
             await Navigation.PopAsync();

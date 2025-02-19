@@ -37,11 +37,12 @@
 
 
             <Button
-                x:Name="InstructorsBtn"
-                Text="Meet the Instructors"
-                SemanticProperties.Hint="Vezi instructorii noștri și specialitățile lor"
-                Clicked="OnInstructorsClicked"
-                HorizontalOptions="Fill" />
+    x:Name="InstructorsBtn"
+    Text="Meet the Instructors"
+    SemanticProperties.Hint="Vezi instructorii noștri și specialitățile lor"
+    Clicked="OnInstructorClicked"
+    HorizontalOptions="Fill" />
+
 
 
             <Button

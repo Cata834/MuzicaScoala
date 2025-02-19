@@ -16,6 +16,7 @@ namespace MuzicaScoala.Models
         public string Name { get; set; } // Numele cursului
         public string Description { get; set; } // Descrierea cursului
         public int InstructorId { get; set; } // ID-ul instructorului care predă cursul (relatie cu Instructor)
+        public string InstructorName { get; set; }
     }
 }
 

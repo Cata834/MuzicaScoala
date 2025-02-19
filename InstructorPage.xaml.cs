@@ -1,5 +1,8 @@
-﻿using MuzicaScoala.Data;
-using MuzicaScoala.Models;
+﻿using MuzicaScoala.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace MuzicaScoala
 {
@@ -10,44 +13,21 @@ namespace MuzicaScoala
             InitializeComponent();
         }
 
-        private async void OnSaveClicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            var name = InstructorNameEntry.Text;
-            var email = InstructorEmailEntry.Text;
-            var phone = InstructorPhoneEntry.Text;
+            base.OnAppearing();
+            await LoadInstructors(); // Când pagina apare, încărcăm instructorii
+        }
 
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(phone))
-            {
-                await DisplayAlert("Error", "Please fill in all fields.", "OK");
-                return;
-            }
+        private async Task LoadInstructors()
+        {
+            var instructors = await App.Database.GetInstructorsAsync();
+            InstructorListView.ItemsSource = instructors; // Afișează instructorii
+        }
 
-            var instructor = new Instructor
-            {
-                Name = name,
-                Email = email,
-                Phone = phone
-            };
-
-            // Salvează instructorul în baza de date
-            var result = await App.Database.AddInstructorAsync(instructor);
-
-            if (result > 0)
-            {
-                // Succes
-                await DisplayAlert("Success", "Instructor saved successfully!", "OK");
-                await Navigation.PopAsync(); // Navighează înapoi la pagina anterioară
-            }
-            else if (result == -1)
-            {
-                // Instructorul există deja
-                await DisplayAlert("Error", "Instructor already exists.", "OK");
-            }
-            else
-            {
-                // Eroare la salvare
-                await DisplayAlert("Error", "Failed to save instructor.", "OK");
-            }
+        private async void OnAddInstructorClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AddInstructorPage());
         }
     }
 }

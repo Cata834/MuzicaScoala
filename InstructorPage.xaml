@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MuzicaScoala.InstructorPage">
+             x:Class="MuzicaScoala.InstructorPage"
+             Title="Instructors">
 
-    <VerticalStackLayout Padding="10">
+    <VerticalStackLayout Padding="10" Spacing="10">
 
-        <!-- Numele instructorului -->
-        <Entry x:Name="InstructorNameEntry" Placeholder="Enter Name" />
+        <Label Text="List of Instructors" FontSize="24" HorizontalOptions="Center" />
 
-        <!-- Email-ul instructorului -->
-        <Entry x:Name="InstructorEmailEntry" Placeholder="Enter Email" Keyboard="Email" />
+        <!-- ListView pentru afișarea instructorilor -->
+        <ListView x:Name="InstructorListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Email}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-        <!-- Telefonul instructorului -->
-        <Entry x:Name="InstructorPhoneEntry" Placeholder="Enter Phone" Keyboard="Telephone" />
-
-        <!-- Alte componente ale paginii -->
-        <Button Text="Save" Clicked="OnSaveClicked" />
+        <!-- Buton pentru a naviga la AddInstructorPage -->
+        <Button Text="Add New Instructor" Clicked="OnAddInstructorClicked" />
 
     </VerticalStackLayout>
 </ContentPage>

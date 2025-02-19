@@ -14,9 +14,11 @@ namespace MuzicaScoala.Data
         public MusicSchoolDatabase(string dbPath)
         {
             _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<Course>().ConfigureAwait(false); // Creăm tabelul pentru cursuri
-            _database.CreateTableAsync<Instructor>().Wait(); // Creăm tabelul pentru instructori
+            _database.CreateTableAsync<Course>().Wait();
+            _database.CreateTableAsync<Instructor>().Wait();
         }
+
+
 
         // Adaugă un curs nou sau actualizează unul existent
         public async Task<int> AddCourseAsync(Course course)
@@ -85,7 +87,6 @@ namespace MuzicaScoala.Data
         {
             try
             {
-                // Verificăm dacă instructorul există deja în baza de date (pe baza unui ID sau nume)
                 if (instructor.Id != 0)
                 {
                     // Instructorul există deja și va fi actualizat
@@ -93,14 +94,13 @@ namespace MuzicaScoala.Data
                 }
                 else
                 {
-                    // Verifică dacă există deja un instructor cu același nume
+                    // Verifică dacă există deja un instructor cu același Email
                     var existingInstructor = await _database.Table<Instructor>()
-                                                            .Where(i => i.Name == instructor.Name)
+                                                            .Where(i => i.Email == instructor.Email)
                                                             .FirstOrDefaultAsync();
                     if (existingInstructor != null)
                     {
-                        // Dacă există un instructor cu același nume, returnează un cod de eroare
-                        return -1; // Returnează un cod de eroare pentru duplicat
+                        return -1; // Instructorul există deja
                     }
 
                     // Instructorul nu există și va fi inserat
@@ -113,6 +113,7 @@ namespace MuzicaScoala.Data
                 return 0; // Returnează 0 pentru semnalizarea unei erori
             }
         }
+
 
         // Obține toți instructorii din baza de date
         public async Task<List<Instructor>> GetInstructorsAsync()
@@ -141,18 +142,7 @@ namespace MuzicaScoala.Data
                 return 0; // Returnează 0 pentru semnalizarea unei erori
             }
         }
-        public async Task SaveInstructorAsync(Instructor instructor)
-        {
-            if (instructor.Id == 0)
-            {
-                // Dacă instructorul nu are încă un ID, îl adăugăm
-                await _database.InsertAsync(instructor);
-            }
-            else
-            {
-                // Dacă instructorul are deja un ID, îl actualizăm
-                await _database.UpdateAsync(instructor);
-            }
+        
         }
     }
-}
+

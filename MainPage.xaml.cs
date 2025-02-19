@@ -17,9 +17,9 @@ namespace MuzicaScoala
         }
 
         // Navigăm către pagina cu instructorii
-        private async void OnInstructorsClicked(object sender, EventArgs e)
+        private async void OnInstructorClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InstructorsPage());
+            await Navigation.PushAsync(new InstructorPage());
         }
 
         // Navigăm către pagina "About"
