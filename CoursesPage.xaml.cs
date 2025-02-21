@@ -1,11 +1,10 @@
-﻿using Syncfusion.Maui.Calendar;
-using Syncfusion.Maui.Core;
-using MuzicaScoala.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using Syncfusion.Maui.Calendar;
+using MuzicaScoala.Models;
 
 namespace MuzicaScoala
 {
@@ -19,28 +18,25 @@ namespace MuzicaScoala
             _instructorId = instructorId;
         }
 
-        protected override async void OnAppearing()
+        private async void OnAppearing()
         {
             base.OnAppearing();
-            await Task.Delay(200); 
+            await Task.Delay(200);
 
             try
             {
-                await LoadCourses();
                 var courses = await App.Database.GetCoursesAsync();
                 var datesWithCourses = courses
-                    .Where(c => c.CourseDate != DateTime.MinValue)
-                    .Select(c => (DateTime?)c.CourseDate)
+                    .Where(c => c.CourseDate != default(DateTime)) // Verificăm dacă CourseDate nu este valoare implicită (default)
+                    .Select(c => c.CourseDate)
                     .ToList();
 
-                if (calendar != null) // Verificăm din nou înainte de a seta SelectedDates
+                if (!datesWithCourses.Any())
                 {
-                    MarkDatesOnCalendar(datesWithCourses);
+                    Console.WriteLine("Nu există cursuri programate.");
                 }
-                else
-                {
-                    Console.WriteLine("EROARE: Calendarul este NULL!");
-                }
+
+                MarkDatesOnCalendar(datesWithCourses);
             }
             catch (Exception ex)
             {
@@ -48,7 +44,6 @@ namespace MuzicaScoala
                 Console.WriteLine($"EROARE: {ex}");
             }
         }
-
 
         private async Task LoadCourses()
         {
@@ -70,11 +65,11 @@ namespace MuzicaScoala
         }
 
         // Când utilizatorul selectează o dată
-        private void OnSelectionChanged(object sender, Syncfusion.Maui.Calendar.CalendarSelectionChangedEventArgs e)
+        private void OnSelectionChanged(object sender, CalendarSelectionChangedEventArgs e)
         {
-            if (e.NewValue != null)
+            if (e.NewValue is IList<DateTime> selectedDates && selectedDates.Any())
             {
-                DateTime selectedDate = (DateTime)e.NewValue;
+                DateTime selectedDate = selectedDates[0]; // Luăm prima dată selectată
                 Console.WriteLine($"Data selectată: {selectedDate:dd/MM/yyyy}");
             }
         }
@@ -82,26 +77,46 @@ namespace MuzicaScoala
         // Când utilizatorul apasă pe "Adaugă Curs"
         private async void OnAddCourseClicked(object sender, EventArgs e)
         {
-            var selectedDate = calendar.SelectedDate;
+            var selectedDate = calendar.SelectedDates.FirstOrDefault();
 
-            if (selectedDate.HasValue)
+            // Verificăm dacă selectedDate este valid
+            if (selectedDate != default(DateTime)) // Verificăm că selectedDate nu este valoare implicită
             {
-                Console.WriteLine($"Cursul va fi programat pentru: {selectedDate.Value:dd/MM/yyyy}");
+                Console.WriteLine($"Cursul va fi programat pentru: {selectedDate:dd/MM/yyyy}");
 
                 var newCourse = new Course
                 {
-                    Name = "Numele Cursului",
-                    Description = "Descrierea cursului",
-                    InstructorId = 1,
+                    Name = "Numele Cursului", // Adăugați valorile relevante
+                    Description = "Descrierea Cursului",
+                    InstructorId = 1, // Exemplu de ID pentru instructor
                     CourseDate = selectedDate
                 };
 
-                await Navigation.PushAsync(new AddCoursePage(newCourse));
+                await App.Database.AddCourseAsync(newCourse);
+                await DisplayAlert("Succes", "Cursul a fost adăugat cu succes!", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Eroare", "Nu a fost selectată nicio dată.", "OK");
             }
         }
 
+        private async Task AddCourseToDatabase(DateTime selectedDate)
+        {
+            var newCourse = new Course
+            {
+                Name = "Noul Curs",
+                Description = "Descriere curs",
+                InstructorId = 1, // ID valid al instructorului
+                CourseDate = selectedDate
+            };
+
+            await App.Database.AddCourseAsync(newCourse);
+            await DisplayAlert("Succes", "Cursul a fost adăugat cu succes!", "OK");
+        }
+
         // Adăugarea de marcaje pe calendar
-        private void MarkDatesOnCalendar(List<DateTime?> datesWithCourses)
+        private void MarkDatesOnCalendar(List<DateTime> datesWithCourses)
         {
             if (calendar == null)
             {
@@ -109,20 +124,9 @@ namespace MuzicaScoala
                 return;
             }
 
-            var selectedDates = datesWithCourses
-                .Where(date => date.HasValue)
-                .Select(date => date.Value)
-                .ToList();
-
-            // Creăm o ObservableCollection din lista selectedDates
-            var observableSelectedDates = new System.Collections.ObjectModel.ObservableCollection<DateTime>(selectedDates);
-
-            // Acum atribuim ObservableCollection calendarului
-            calendar.SelectedDates = observableSelectedDates;
+            // Atribuim o nouă listă la SelectedDates
+            calendar.SelectedDates = new System.Collections.ObjectModel.ObservableCollection<DateTime>(datesWithCourses);
         }
-
-
-
 
         private async void OnCourseTapped(object sender, ItemTappedEventArgs e)
         {

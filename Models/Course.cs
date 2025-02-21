@@ -18,7 +18,7 @@ namespace MuzicaScoala.Models
         public int InstructorId { get; set; } // ID-ul instructorului care predă cursul (relatie cu Instructor)
         public string InstructorName { get; set; }
 
-        public DateTime? CourseDate { get; set; }
+        public DateTime CourseDate { get; set; }
 
     }
 }
