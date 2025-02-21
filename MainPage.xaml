@@ -4,69 +4,46 @@
              x:Class="MuzicaScoala.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout Padding="30,0" Spacing="25">
 
-            <Image
-                Source="school_logo.jpeg"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="Logo-ul școlii de muzică" />
+            <SearchBar x:Name="InstructorSearchBar"
+                       Placeholder="Search instructors..."
+                       TextChanged="OnSearchTextChanged"
+                       HorizontalOptions="Fill" />
 
+            <Image Source="school_logo.jpeg"
+                   HeightRequest="185"
+                   Aspect="AspectFit"
+                   SemanticProperties.Description="Logo-ul școlii de muzică" />
 
-            <Label
-                Text="Welcome to the Music School!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Welcome to the Music School!"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
 
+            <Label Text="Learn to sing with the best instructors and explore various music courses."
+                   Style="{StaticResource SubHeadline}"
+                   SemanticProperties.HeadingLevel="Level2"
+                   SemanticProperties.Description="Descriere despre școala de muzică" />
 
-            <Label
-                Text="Learn to sing with the best instructors and explore various music courses."
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Descriere despre școala de muzică" />
+            <Button x:Name="CoursesBtn" Text="See Courses"
+                    Clicked="OnCoursesClicked"
+                    HorizontalOptions="Fill" />
 
+            <Button x:Name="InstructorsBtn" Text="Meet the Instructors"
+                    Clicked="OnInstructorClicked"
+                    HorizontalOptions="Fill" />
 
-            <Button
-                x:Name="CoursesBtn"
-                Text="See Courses"
-                SemanticProperties.Hint="Accesează lista de cursuri oferite"
-                Clicked="OnCoursesClicked"
-                HorizontalOptions="Fill" />
+            <Button x:Name="AboutBtn" Text="About our music school"
+                    Clicked="OnAboutClicked"
+                    HorizontalOptions="Fill" />
 
+            <Button x:Name="AddCourseBtn" Text="Add New Course"
+                    Clicked="OnAddCourseClicked"
+                    HorizontalOptions="Fill" />
 
-            <Button
-    x:Name="InstructorsBtn"
-    Text="Meet the Instructors"
-    SemanticProperties.Hint="Vezi instructorii noștri și specialitățile lor"
-    Clicked="OnInstructorClicked"
-    HorizontalOptions="Fill" />
-
-
-
-            <Button
-                x:Name="AboutBtn"
-                Text="About our music school"
-                SemanticProperties.Hint="Află mai multe despre istoria și misiunea școlii"
-                Clicked="OnAboutClicked"
-                HorizontalOptions="Fill" />
-
-            <!-- Adăugăm butonul pentru adăugarea unui curs -->
-            <Button
-                x:Name="AddCourseBtn"
-                Text="Add New Course"
-                SemanticProperties.Hint="Adaugă un curs nou"
-                Clicked="OnAddCourseClicked"
-                HorizontalOptions="Fill" />
-            <Button
-    x:Name="AddInstructorBtn"
-    Text="Add New Instructor"
-    SemanticProperties.Hint="Adaugă un instructor nou"
-    Clicked="OnAddInstructorClicked"
-    HorizontalOptions="Fill" />
-
-
+            <Button x:Name="AddInstructorBtn" Text="Add New Instructor"
+                    Clicked="OnAddInstructorClicked"
+                    HorizontalOptions="Fill" />
 
         </VerticalStackLayout>
     </ScrollView>

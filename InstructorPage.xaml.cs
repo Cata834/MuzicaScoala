@@ -9,9 +9,23 @@ namespace MuzicaScoala
 {
     public partial class InstructorPage : ContentPage
     {
+        private Instructor _instructor;
         public InstructorPage()
         {
             InitializeComponent();
+        }
+
+        public InstructorPage(Instructor instructor)
+        {
+            InitializeComponent();
+            _instructor = instructor;
+            DisplayInstructorDetails();
+        }
+
+        private void DisplayInstructorDetails()
+        {
+            Title = _instructor.Name;
+            DisplayAlert("Instructor Found", $"Instructor: {_instructor.Name}", "OK");
         }
 
         protected override async void OnAppearing()
