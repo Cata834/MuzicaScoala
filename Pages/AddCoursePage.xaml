@@ -15,6 +15,10 @@
             <Label Text="Instructor" />
             <Picker x:Name="InstructorPicker" Title="Select an Instructor" ItemDisplayBinding="{Binding Name}" />
 
+            <Label Text="Select Course Date" />
+            <DatePicker x:Name="CourseDatePicker" />
+
+
             <Button x:Name="SaveButton" Text="Save Course" Clicked="OnSaveCourseClicked" />
         </VerticalStackLayout>
     </ScrollView>

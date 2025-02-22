@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-          xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
              x:Class="MuzicaScoala.CoursesPage">
 
     <StackLayout Padding="20">
@@ -10,11 +10,7 @@
                HorizontalOptions="Center" />
 
         <!-- Calendarul Syncfusion -->
-        <syncfusion:SfCalendar x:Name="calendar" SelectionChanged="OnSelectionChanged" />
-
-
-
-
+        <syncfusion:SfCalendar x:Name="calendar" SelectionChanged="OnSelectionChanged" SelectionMode="Single"/>
 
         <Button Text="Adaugă Curs"
                 Clicked="OnAddCourseClicked"
@@ -31,6 +27,5 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <!-- <Button Text="Add New Course" Clicked="OnAddCourseClicked" /> -->
     </StackLayout>
 </ContentPage>

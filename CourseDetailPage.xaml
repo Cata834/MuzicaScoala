@@ -4,12 +4,17 @@
              x:Class="MuzicaScoala.CourseDetailPage">
 
     <StackLayout Padding="20">
-        <Label Text="Course Details" FontSize="24" HorizontalOptions="CenterAndExpand" />
-        <Label Text="Name:" FontSize="18" />
-        <Label x:Name="CourseNameLabel" FontSize="18" />
-        <Label Text="Description:" FontSize="18" />
-        <Label x:Name="CourseDescriptionLabel" FontSize="18" />
-        <Label Text="Instructor:" FontSize="18" />
-        <Label x:Name="InstructorLabel" FontSize="18" />
+        <Label Text="Cursuri pentru data selectată"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <ListView x:Name="CoursesListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Description}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </ContentPage>
+

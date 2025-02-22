@@ -58,7 +58,6 @@ namespace MuzicaScoala
                 return;
             }
 
-            // Selectăm instructorul real
             var selectedInstructor = (Instructor)InstructorPicker.SelectedItem;
 
             _course.Name = CourseNameEntry.Text;
@@ -66,11 +65,18 @@ namespace MuzicaScoala
             _course.InstructorId = selectedInstructor.Id;
             _course.InstructorName = selectedInstructor.Name;
 
+            // Salvăm data selectată
+            _course.CourseDate = CourseDatePicker.Date;
+
             int result = await App.Database.AddCourseAsync(_course);
 
             if (result > 0)
             {
                 await DisplayAlert("Success", "Course saved successfully!", "OK");
+
+                // Notificăm CoursesPage că trebuie să reîncarce calendarul
+                MessagingCenter.Send(this, "CourseAdded", _course.CourseDate);
+
                 await Navigation.PopAsync();
             }
             else
@@ -78,5 +84,6 @@ namespace MuzicaScoala
                 await DisplayAlert("Error", "An error occurred while saving the course.", "OK");
             }
         }
+
     }
 }

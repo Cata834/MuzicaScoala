@@ -152,6 +152,12 @@ namespace MuzicaScoala.Data
                 Console.WriteLine($"Eroare la ștergerea instructorilor fără cursuri: {ex.Message}");
             }
         }
+        public async Task<List<Course>> GetCoursesByDateAsync(DateTime date)
+        {
+            return await _database.Table<Course>()
+                .Where(c => c.CourseDate == date)
+                .ToListAsync();
+        }
 
 
     }
