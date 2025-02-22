@@ -10,116 +10,140 @@ namespace MuzicaScoala
 {
     public partial class CoursesPage : ContentPage
     {
-        private int? _instructorId; // Stocăm ID-ul instructorului (dacă venim din InstructorPage)
+        private int? _instructorId;
 
         public CoursesPage(int? instructorId = null)
         {
             InitializeComponent();
             _instructorId = instructorId;
+
+
+            MessagingCenter.Unsubscribe<AddCoursePage, DateTime>(this, "CourseAdded");
             MessagingCenter.Subscribe<AddCoursePage, DateTime>(this, "CourseAdded", (sender, newDate) =>
             {
+                Console.WriteLine($"[MessagingCenter] Curs nou adăugat pe data: {newDate:dd/MM/yyyy}");
                 MarkDatesOnCalendar(new List<DateTime> { newDate });
             });
+            MessagingCenter.Subscribe<AddCoursePage, DateTime>(this, "CourseAdded", async (sender, newDate) =>
+            {
+                await LoadCourses(); // 🔹 Actualizăm lista cursurilor
+            });
+
         }
 
-        // Acest eveniment este apelat atunci când pagina apare pe ecran
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Unsubscribe<AddCoursePage, DateTime>(this, "CourseAdded");
+        }
+
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            await Task.Delay(200); // Mică întârziere pentru UI
+            await Task.Delay(200);
 
             try
             {
                 var courses = await App.Database.GetCoursesAsync();
                 var datesWithCourses = courses
-                    .Where(c => c.CourseDate != default(DateTime))
-                    .Select(c => c.CourseDate.Date) // Asigură-te că e doar data, fără ore
-                    .Distinct() // Evită duplicatele
+                    .Where(c => c.CourseDate > DateTime.MinValue)
+                    .Select(c => c.CourseDate.Date)
+                    .Distinct()
                     .ToList();
 
                 MarkDatesOnCalendar(datesWithCourses);
+                await LoadCourses(); // 🔹 Reîncărcăm lista cursurilor
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Eroare", ex.Message, "OK");
-                Console.WriteLine($"EROARE: {ex}");
+                Console.WriteLine($"[EROARE] {ex}");
             }
         }
 
 
-
-
-        // Funcția care încarcă cursurile din baza de date
         private async Task LoadCourses()
         {
             var courses = await App.Database.GetCoursesAsync();
             var instructors = await App.Database.GetInstructorsAsync();
 
-            if (_instructorId.HasValue)
-            {
-                courses = courses.Where(c => c.InstructorId == _instructorId.Value).ToList();
-            }
-
             foreach (var course in courses)
             {
                 var instructor = instructors.FirstOrDefault(i => i.Id == course.InstructorId);
-                course.InstructorName = instructor != null ? instructor.Name : "Fără instructor";
+                course.InstructorName = instructor?.Name ?? "Fără instructor";
             }
 
             CoursesListView.ItemsSource = courses;
         }
+   
 
-        // Când utilizatorul selectează o dată
+
+        private bool isProcessingSelection = false;
+
         private async void OnSelectionChanged(object sender, CalendarSelectionChangedEventArgs e)
         {
-            if (e.NewValue is IList<DateTime> selectedDates && selectedDates.Any())
-            {
-                DateTime selectedDate = selectedDates[0]; // Obținem prima dată selectată
+            if (isProcessingSelection) return; // Evită apelurile multiple
 
-                // Verificăm dacă există cursuri pentru acea dată
-                var coursesForDate = await App.Database.GetCoursesByDateAsync(selectedDate);
-                if (coursesForDate.Any())
+            isProcessingSelection = true; // Blocăm execuția multiplă
+
+            try
+            {
+                if (e.NewValue is IList<DateTime> selectedDates && selectedDates.Any())
                 {
-                    // Dacă există cursuri, afișăm un mesaj cu datele cursurilor
-                    string courseNames = string.Join(", ", coursesForDate.Select(c => c.Name));
-                    await DisplayAlert("Cursuri Programate", $"Pentru această dată sunt programate cursurile: {courseNames}", "OK");
+                    DateTime selectedDate = selectedDates[0];
+
+                    Console.WriteLine($"[DEBUG] Utilizatorul a selectat data: {selectedDate:dd/MM/yyyy}");
+
+                    var coursesForDate = await App.Database.GetCoursesByDateAsync(selectedDate);
+                    if (coursesForDate.Any())
+                    {
+                        string courseNames = string.Join(", ", coursesForDate.Select(c => c.Name));
+
+                        await DisplayAlert("Cursuri Programate", $"Pentru această dată sunt programate cursurile: {courseNames}", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Informație", "Nu sunt cursuri programate pentru această dată.", "OK");
+                    }
                 }
-                else
-                {
-                    // Dacă nu există cursuri, afișăm un mesaj informativ
-                    await DisplayAlert("Informație", "Nu sunt cursuri programate pentru această dată.", "OK");
-                }
+            }
+            finally
+            {
+                await Task.Delay(300); // Mic delay pentru a preveni reapelările rapide
+                isProcessingSelection = false; // Resetăm flag-ul
             }
         }
 
 
-
-
-
-        // Când utilizatorul apasă pe "Adaugă Curs"
         private async void OnAddCourseClicked(object sender, EventArgs e)
         {
             var selectedDate = calendar.SelectedDate;
 
             if (selectedDate.HasValue)
             {
-                DateTime selectedDateValue = selectedDate.Value; // Extragem valoarea
+                DateTime selectedDateValue = selectedDate.Value;
 
-                // Debug: Afișează data selectată
-                Console.WriteLine($"Data selectată: {selectedDateValue:dd/MM/yyyy}");
+                // Verificăm dacă există deja un curs în acea dată
+                var existingCourses = await App.Database.GetCoursesByDateAsync(selectedDateValue);
+                if (existingCourses.Any(c => c.Name == "Numele Cursului"))
+                {
+                    await DisplayAlert("Eroare", "Cursul pentru această dată există deja!", "OK");
+                    return;
+                }
 
-                // Continuăm cu logica de adăugare a cursului
                 var newCourse = new Course
                 {
-                    Name = "Numele Cursului", // Adăugați valorile relevante
+                    Name = "Numele Cursului",
                     Description = "Descrierea Cursului",
-                    InstructorId = 1, // Exemplu de ID pentru instructor
-                    CourseDate = selectedDateValue // Folosim selectedDateValue
+                    InstructorId = 1,
+                    CourseDate = selectedDateValue
                 };
 
                 await App.Database.AddCourseAsync(newCourse);
                 await DisplayAlert("Succes", "Cursul a fost adăugat cu succes!", "OK");
+
+                MessagingCenter.Send(this, "CourseAdded", selectedDateValue);
             }
             else
             {
@@ -128,32 +152,25 @@ namespace MuzicaScoala
         }
 
 
-
-
-        // Adăugarea de marcaje pe calendar
         private void MarkDatesOnCalendar(List<DateTime> datesWithCourses)
         {
             if (calendar == null)
             {
-                Console.WriteLine("EROARE: calendar este null!");
+                Console.WriteLine("[EROARE] calendar este null!");
                 return;
             }
 
-            // Clear selecțiile anterioare
-            calendar.SelectedDates.Clear();
-
+            var existingDates = new HashSet<DateTime>(calendar.SelectedDates);
             foreach (var date in datesWithCourses)
             {
-                if (!calendar.SelectedDates.Contains(date))
+                if (!existingDates.Contains(date)) // Evităm adăugarea duplicată
                 {
-                    calendar.SelectedDates.Add(date); // Marcam data pe calendar
+                    calendar.SelectedDates.Add(date);
                 }
             }
 
-            Console.WriteLine("Datele au fost marcate pe calendar.");
+            Console.WriteLine($"[DEBUG] Datele marcate pe calendar: {string.Join(", ", calendar.SelectedDates)}");
         }
-
-
 
 
         private async void OnCourseTapped(object sender, ItemTappedEventArgs e)
@@ -163,13 +180,12 @@ namespace MuzicaScoala
 
             var selectedCourse = (Course)e.Item;
 
-            // Afișăm un mesaj cu informațiile cursului
-            await DisplayAlert("Curs Selectat", $"Ai selectat: {selectedCourse.Name} de la {selectedCourse.InstructorName}", "OK");
+            await DisplayAlert("Detalii Curs",
+                $"Nume: {selectedCourse.Name}\nInstructor: {selectedCourse.InstructorName}\nData: {selectedCourse.CourseDate:dd/MM/yyyy}\nDescriere: {selectedCourse.Description}",
+                "OK");
 
-            // Debifează elementul selectat din listă pentru UI
             ((ListView)sender).SelectedItem = null;
         }
-
 
     }
 }

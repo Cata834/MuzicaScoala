@@ -19,11 +19,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <!-- Buton pentru a șterge instructorii fără cursuri -->
-        <Button Text="Șterge Instructori Fără Cursuri"
-                Clicked="OnDeleteInstructorsWithoutCoursesClicked"
-                HorizontalOptions="Center" 
-                VerticalOptions="CenterAndExpand" />
+       
 
         <!-- Buton pentru a naviga la AddInstructorPage -->
         <Button Text="Add New Instructor" Clicked="OnAddInstructorClicked" />

@@ -5,26 +5,57 @@
              Title="About Our Music School">
     <VerticalStackLayout Spacing="10" Margin="10" HorizontalOptions="Center" VerticalOptions="Center">
 
+        <!-- Logo -->
         <HorizontalStackLayout Spacing="10" >
             <Image Source="music_logo.png"
                    SemanticProperties.Description="Music School Logo"
                    HeightRequest="150"
                    HorizontalOptions="Center"
                    VerticalOptions="Center" />
-
-            
-
-           
         </HorizontalStackLayout>
 
-        <Label FontSize="22" FontAttributes="Bold" Text="Harmony Music School"
-       VerticalOptions="End" />
-
+        <!-- Numele școlii și descrierea -->
+        <Label FontSize="22" FontAttributes="Bold" Text="Harmony Music School" VerticalOptions="Start" />
         <Label Text="Welcome to Harmony Music School! We offer professional music courses for all ages."
                FontSize="16" />
 
-        <Label Text="Learn piano, guitar, violin, and more from experienced instructors."
+        <!-- Descrierea aplicației -->
+        <Label Text="This app helps you manage and schedule your music courses. You can view upcoming courses, register for classes, and stay in touch with our instructors."
                FontSize="14" />
+
+        <!-- Descrierea școlii -->
+        <Label Text="Founded in 2015, Harmony Music School is dedicated to providing high-quality music education to students of all levels."
+               FontSize="14" />
+
+        <!-- Contact -->
+        <Label Text="For more information, you can contact us at:"
+               FontSize="14" FontAttributes="Bold" />
+        <Label Text="Email: contact@harmonyschool.com"
+               FontSize="14" />
+        <Label Text="Phone: +1 234 567 890"
+               FontSize="14" />
+
+        <!-- Politici -->
+        <Label Text="Cancellation Policy: All courses can be cancelled with 24 hours notice."
+               FontSize="14" />
+
+        <!-- Feedback -->
+        <Label Text="We would love to hear your feedback! Share your experience on our website or social media."
+               FontSize="14" />
+
+       
+
+        <Button Text="View Courses"
+                FontSize="16"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand"
+                Clicked="OnViewCoursesClicked" />
+
+        <Button Text="View Instructors"
+                FontSize="16"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand"
+                Clicked="OnViewInstructorsClicked" />
 
     </VerticalStackLayout>
 </ContentPage>

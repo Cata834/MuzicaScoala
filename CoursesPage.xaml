@@ -12,17 +12,20 @@
         <!-- Calendarul Syncfusion -->
         <syncfusion:SfCalendar x:Name="calendar" SelectionChanged="OnSelectionChanged" SelectionMode="Single"/>
 
-        <Button Text="Adaugă Curs"
-                Clicked="OnAddCourseClicked"
-                HorizontalOptions="Center"
-                VerticalOptions="CenterAndExpand" />
+        
+        <Label Text="Lista Cursurilor" FontSize="24" HorizontalOptions="Center" />
 
-        <Label Text="Courses" FontSize="24" HorizontalOptions="CenterAndExpand" />
-
-        <ListView x:Name="CoursesListView" ItemTapped="OnCourseTapped">
+        <ListView x:Name="CoursesListView" HasUnevenRows="True" ItemTapped="OnCourseTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding InstructorName}" />
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold"/>
+                            <Label Text="{Binding Description}" FontSize="Small"/>
+                            <Label Text="{Binding InstructorName}" FontSize="Small" TextColor="Gray"/>
+                            <Label Text="{Binding CourseDate, StringFormat='Data: {0:dd/MM/yyyy}'}" FontSize="Small" TextColor="Gray"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
