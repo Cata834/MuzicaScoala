@@ -50,7 +50,8 @@ namespace MuzicaScoala
             if (e.Item is Instructor selectedInstructor)
             {
                 // Navigăm către CoursesPage și trimitem ID-ul instructorului
-                await Navigation.PushAsync(new CoursesPage(selectedInstructor.Id));
+                // await Navigation.PushAsync(new CoursesPage(selectedInstructor.Id));
+                await Navigation.PushAsync(new AddInstructorPage(selectedInstructor));
             }
         }
 
@@ -80,5 +81,21 @@ namespace MuzicaScoala
                 await DisplayAlert("Info", "Nu sunt instructori fără cursuri.", "OK");
             }
         }
+
+        private async void OnUpdateInstructorClicked(object sender, EventArgs e)
+        {
+            var selectedInstructor = InstructorListView.SelectedItem as Instructor;
+
+            if (selectedInstructor == null)
+            {
+                await DisplayAlert("Error", "Please select an instructor to update.", "OK");
+                return;
+            }
+
+            // Navigăm la AddInstructorPage cu instructorul selectat
+            await Navigation.PushAsync(new AddInstructorPage(selectedInstructor));
+        }
+
     }
+
 }

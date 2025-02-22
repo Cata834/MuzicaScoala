@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MuzicaScoala.InstructorPage"
              Title="Instructors">
 
-    <VerticalStackLayout Padding="10" Spacing="10">
-
-        <Label Text="List of Instructors" FontSize="24" HorizontalOptions="Center" />
-
-        <!-- ListView pentru afișarea instructorilor -->
+    <Grid Padding="10">
+        <!-- Lista de instructori -->
         <ListView x:Name="InstructorListView"
                   ItemTapped="OnInstructorTapped">
             <ListView.ItemTemplate>
@@ -19,10 +15,13 @@
             </ListView.ItemTemplate>
         </ListView>
 
-       
-
-        <!-- Buton pentru a naviga la AddInstructorPage -->
-        <Button Text="Add New Instructor" Clicked="OnAddInstructorClicked" />
-
-    </VerticalStackLayout>
+        <!-- Butonul de update -->
+        <Button Text="Update"
+                Clicked="OnUpdateInstructorClicked"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Padding="10"
+                BackgroundColor="MediumPurple" />
+        <!-- Poziționează butonul în colțul din dreapta sus -->
+    </Grid>
 </ContentPage>

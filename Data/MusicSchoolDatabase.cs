@@ -158,6 +158,18 @@ namespace MuzicaScoala.Data
                 .Where(c => c.CourseDate == date)
                 .ToListAsync();
         }
+        public async Task<int> SaveInstructorAsync(Instructor instructor)
+        {
+            if (instructor.Id != 0)
+            {
+                return await _database.UpdateAsync(instructor); // Dacă instructorul există deja, îl actualizăm
+            }
+            else
+            {
+                return await _database.InsertAsync(instructor); // Dacă instructorul este nou, îl adăugăm
+            }
+        }
+
 
 
     }
